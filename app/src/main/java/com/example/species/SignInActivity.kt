@@ -81,9 +81,6 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    private fun showDialog() {
-
-    }
     override fun onStart() {
         super.onStart()
 

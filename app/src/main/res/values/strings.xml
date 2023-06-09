@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Species</string>
     <string name="type_your_email">Type your Email</string>
+    <string name="type_your_password">Type Your Password</string>
+    <string name="login">LOGIN</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="forgot_password">Forgot password ?</string>
+    <string name="hello">Hello</string>
+    <string name="let_s_learn_more_about_plants">Let\'s Learn More About Plants</string>
+    <string name="don_t_have_account">Don\'t Have Account?</string>
+    <string name="register_new_account">Register new account</string>
+    <string name="type_user_name">Type User Name</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="reset_link_will_be_sent_to_your_email">Reset link will be sent to your email</string>
+    <string name="send_email">SEND EMAIL</string>
 </resources>
