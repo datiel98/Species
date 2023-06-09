@@ -32,32 +32,6 @@ class SignInActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.forgotPassTextView.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            val inflater = layoutInflater
-            val dialogLayout = inflater.inflate(R.layout.forgot_pass_dialog, null)
-            val editText = dialogLayout.findViewById<EditText>(R.id.email_text)
-
-            with(builder) {
-                setTitle("Reset Password")
-                setPositiveButton("Reset"){dialog, which ->
-                    val emailReset = editText.text.toString()
-
-                    Firebase.auth.sendPasswordResetEmail(emailReset)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Toast.makeText(this@SignInActivity, "Email Sent", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                }
-                setNegativeButton("Cancel"){dialog, which ->
-                    Toast.makeText(this@SignInActivity, "Canceled", Toast.LENGTH_SHORT).show()
-
-                }
-                setView(dialogLayout)
-                show()
-            }
-        }
 
         binding.button.setOnClickListener {
             val email = binding.emailEt.text.toString()
