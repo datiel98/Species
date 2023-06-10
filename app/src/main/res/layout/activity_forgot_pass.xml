@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="28dp"
+        android:theme="@style/AppTheme"
         app:boxStrokeColor="@color/green"
         app:hintTextColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +27,7 @@
             style="@style/LoginTextInputInnerFieldStyle"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
-            android:hint="@string/type_your_email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="@string/forget_password"
+        android:textColor="@color/grey"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,6 +69,7 @@
         android:layout_marginTop="4dp"
         android:letterSpacing="0.1"
         android:minHeight="48dp"
+        android:textColor="@color/grey"
         android:text="@string/reset_link_will_be_sent_to_your_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.372"

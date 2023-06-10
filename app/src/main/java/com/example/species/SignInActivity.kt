@@ -32,6 +32,11 @@ class SignInActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.forgotPassTextView.setOnClickListener {
+            val intent = Intent(this, ForgotPassActivity::class.java)
+            startActivity(intent)
+        }
+
 
         binding.button.setOnClickListener {
             val email = binding.emailEt.text.toString()

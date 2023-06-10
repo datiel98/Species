@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="32dp"
+        android:theme="@style/AppTheme"
         app:boxStrokeColor="@color/green"
         app:hintTextColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +28,7 @@
             style="@style/LoginTextInputInnerFieldStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/type_your_email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -38,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="116dp"
         android:text="@string/sign_up"
+        android:textColor="@color/grey"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +54,7 @@
         android:layout_marginTop="8dp"
         android:letterSpacing="0.1"
         android:text="@string/register_new_account"
+        android:textColor="@color/grey"
         app:autoSizeTextType="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.105"
@@ -65,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
+        android:theme="@style/AppTheme"
         app:boxStrokeColor="@color/green"
         app:hintTextColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +82,7 @@
             style="@style/LoginTextInputInnerFieldStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/type_your_password"
+            android:hint="@string/password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,6 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
+        android:theme="@style/AppTheme"
         app:boxStrokeColor="@color/green"
         app:hintTextColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +106,7 @@
             style="@style/LoginTextInputInnerFieldStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/type_user_name"
+            android:hint="@string/user_name"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
