@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
@@ -44,20 +46,42 @@ class SignInActivity : AppCompatActivity() {
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
 
-                firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                if (isValidEmail(email)) {
+                    if (isValidPassword(pass)) {
+                        firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
 
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "Incorrect Password Format", Toast.LENGTH_SHORT).show()
                     }
+                } else {
+                    Toast.makeText(this, "Incorrect Email Format", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
 
             }
         }
+    }
+
+    private fun isValidPassword(password: String): Boolean {
+        if (password.length < 11) return false
+        if (password.filter { it.isDigit() }.firstOrNull() == null) return false
+        if (password.filter { it.isLetter() }.filter { it.isUpperCase() }.firstOrNull() == null) return false
+        if (password.filter { it.isLetter() }.filter { it.isLowerCase() }.firstOrNull() == null) return false
+        if (password.filter { !it.isLetterOrDigit() }.firstOrNull() == null) return false
+
+        return true
+    }
+
+    private fun isValidEmail(target: CharSequence): Boolean {
+        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 
     override fun onStart() {

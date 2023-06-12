@@ -20,4 +20,8 @@
     <string name="species">SPECIES</string>
     <string name="articles">ARTICLES</string>
     <string name="plant_types">Plant Types</string>
+    <string name="photography">Photography</string>
+    <string name="home_plants">Home Plants</string>
+    <string name="_68_types_of_plants">68 Types of Plants</string>
+    <string name="name">Name</string>
 </resources>
