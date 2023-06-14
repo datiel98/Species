@@ -24,4 +24,12 @@
     <string name="home_plants">Home Plants</string>
     <string name="_68_types_of_plants">68 Types of Plants</string>
     <string name="name">Name</string>
+    <string name="red_cactus">Red Cactus</string>
+    <string name="kingdom">KINGDOM</string>
+    <string name="family">FAMILY</string>
+    <string name="plantae">Plantae</string>
+    <string name="cactaceae">Cactaceae</string>
+    <string name="description">DESCRIPTION</string>
+    <string name="rebutia_minuscula_is_a_species_of_cactus_from_south_america_found_in_northern_argentina_and_bolivia_it_is_the_type_species_of_the_genus_rebutia">Rebutia minuscula is a species of cactus from South America found in northern Argentina and Bolivia. It is the type species of the genus Rebutia.</string>
+    <string name="cactus">Cactus</string>
 </resources>
