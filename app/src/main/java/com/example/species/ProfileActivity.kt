@@ -2,82 +2,46 @@ package com.example.species
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.TextView
+import android.view.View
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.species.databinding.ActivityHomeScreenBinding
-import com.example.species.databinding.ActivityListSpeciesBinding
+import com.example.species.databinding.ActivityProfileBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
-class ListSpeciesActivity : AppCompatActivity() {
+class ProfileActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityListSpeciesBinding
-    private lateinit var speciesAdapter: SpeciesAdapter
-    private lateinit var speciesList: ArrayList<Species>
+    private lateinit var binding: ActivityProfileBinding
+    lateinit var preference : SharedPreferences
+
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var storageRef: StorageReference
 
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
     var img_uri: Uri? = null
+    var userName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityListSpeciesBinding.inflate(layoutInflater)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val speciesName = intent.getParcelableExtra<SearchSpecies>("searchSpecies")
-        if (speciesName != null) {
-            val displaySpeciesName: TextView = findViewById(R.id.textSpecies)
+        preference = getSharedPreferences("User", Context.MODE_PRIVATE)
+        userName = preference.getString("name", null)
+        binding.userNameTextView.text = userName
 
-            displaySpeciesName.text = speciesName.searchSpeciesName
-        }
-
-        binding.listSpeciesRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@ListSpeciesActivity)
-        }
-
-        speciesList = arrayListOf()
-
-        if (speciesName != null) {
-            FirebaseFirestore.getInstance().collection("plants")
-                .whereEqualTo("species", speciesName.searchSpeciesName)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val eachSpecies: Species? = document.toObject<Species>(Species::class.java)
-                        speciesList.add(eachSpecies!!)
-                    }
-                    speciesAdapter = SpeciesAdapter(this, speciesList)
-                    binding.listSpeciesRecyclerView.adapter = speciesAdapter
-                    speciesAdapter.onItemClick = {
-                        val intent = Intent(this, DetailSpeciesActivity::class.java)
-                        intent.putExtra("species", it)
-                        startActivity(intent)
-                    }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
-                }
-        }
-
-        binding.home.setOnClickListener {
-            val intent = Intent(this, HomeScreenActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.profile.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.materialCardView.setOnClickListener {
+        binding.avatarCardView.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(Manifest.permission.CAMERA)
                     == PackageManager.PERMISSION_DENIED ||
@@ -93,7 +57,6 @@ class ListSpeciesActivity : AppCompatActivity() {
                 openCamera()
             }
         }
-
     }
     private fun openCamera() {
         val values = ContentValues()
@@ -125,9 +88,30 @@ class ListSpeciesActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val intent = Intent(this, AddSpeciesActivity::class.java)
-        intent.putExtra("image", img_uri)
-        startActivity(intent)
-    }
+        binding.authorImageView.setImageURI(img_uri)
 
+        storageRef = FirebaseStorage.getInstance().reference.child("Users")
+        firebaseFirestore = FirebaseFirestore.getInstance()
+
+        storageRef = storageRef.child(System.currentTimeMillis().toString())
+        img_uri?.let {
+            storageRef.putFile(it).addOnCompleteListener {task ->
+                if (task.isSuccessful) {
+
+                    storageRef.downloadUrl.addOnSuccessListener { uri ->
+                        val img_url = uri.toString()
+                        userName?.let { it1 ->
+                            firebaseFirestore.collection("users")
+                                .document(it1)
+                                .update("image", img_url)
+                        }
+                    }
+
+                } else {
+                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
+
+                }
+            }
+        }
+    }
 }

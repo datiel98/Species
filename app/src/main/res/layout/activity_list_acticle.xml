@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".ListSpeciesActivity">
+    android:background="@color/white"
+    tools:context=".ListArticleActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -18,23 +18,21 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textSpecies"
+        android:id="@+id/textArticle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="100dp"
-        android:text="@string/cactus"
+        android:text="Articles"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/searchView"/>
+        app:layout_constraintBottom_toTopOf="@id/articleSearchView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/articleSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -48,18 +46,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/listSpeciesRecyclerView"
-        app:layout_constraintTop_toBottomOf="@+id/textSpecies" />
+        app:layout_constraintBottom_toTopOf="@id/listArticleRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/textArticle" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listSpeciesRecyclerView"
-        android:layout_width="380dp"
+        android:id="@+id/listArticleRecyclerView"
+        android:layout_width="400dp"
         android:layout_height="600dp"
         android:layout_marginTop="1dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"/>
+        app:layout_constraintTop_toBottomOf="@+id/articleSearchView" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomNavigation"
@@ -159,6 +157,5 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

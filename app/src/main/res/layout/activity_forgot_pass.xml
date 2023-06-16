@@ -69,11 +69,11 @@
         android:layout_marginTop="4dp"
         android:letterSpacing="0.1"
         android:minHeight="48dp"
-        android:textColor="@color/grey"
         android:text="@string/reset_link_will_be_sent_to_your_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.372"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/grey"
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

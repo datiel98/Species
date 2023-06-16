@@ -32,6 +32,12 @@ class SignUpActivity : AppCompatActivity() {
             val email = binding.emailEt.text.toString()
             val pass = binding.passET.text.toString()
             val userName = binding.userName.text.toString()
+            val userImage = ""
+            var favoriteSpecies: ArrayList<String>
+            var favoriteArticles: ArrayList<String>
+
+            favoriteSpecies = arrayListOf()
+            favoriteArticles = arrayListOf()
 
             if (email.isNotEmpty() && pass.isNotEmpty() && userName.isNotEmpty()) {
                 if (isValidEmail(email)) {
@@ -39,6 +45,7 @@ class SignUpActivity : AppCompatActivity() {
                         firebaseAuth.createUserWithEmailAndPassword(email, pass)
                             .addOnCompleteListener {
                                 if (it.isSuccessful) {
+                                    Toast.makeText(this, "Signed Up Successful", Toast.LENGTH_SHORT).show()
                                     val intent = Intent(this, SignInActivity::class.java)
                                     startActivity(intent)
                                 } else {
@@ -53,7 +60,11 @@ class SignUpActivity : AppCompatActivity() {
 
                         val user = hashMapOf(
                             "email" to email,
-                            "password" to pass
+                            "password" to pass,
+                            "name" to userName,
+                            "image" to userImage,
+                            "favorite_species" to favoriteSpecies,
+                            "favorite_articles" to favoriteArticles
                         )
                         db.collection("users").document(userName)
                             .set(user)

@@ -2,7 +2,9 @@ package com.example.species
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -22,11 +24,13 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         firebaseAuth = FirebaseAuth.getInstance()
         binding.textView.setOnClickListener {
@@ -50,8 +54,10 @@ class SignInActivity : AppCompatActivity() {
                     if (isValidPassword(pass)) {
                         firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                             if (it.isSuccessful) {
-                                val intent = Intent(this, MainActivity::class.java)
+                                val intent = Intent(this, HomeScreenActivity::class.java)
+                                intent.putExtra("email", email)
                                 startActivity(intent)
+                                finish()
                             } else {
                                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
 
@@ -82,14 +88,5 @@ class SignInActivity : AppCompatActivity() {
 
     private fun isValidEmail(target: CharSequence): Boolean {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        if(firebaseAuth.currentUser != null){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

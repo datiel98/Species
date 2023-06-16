@@ -4,62 +4,101 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".ListSpeciesActivity">
+    android:background="@color/white"
+    tools:context=".DetailArticlesActivity">
 
     <ImageView
+        android:id="@+id/detailArticlesImageView"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:src="@drawable/green_background"
-        android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textSpecies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"
-        android:text="@string/cactus"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:textStyle="bold"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/article"
+        app:layout_constraintBottom_toTopOf="@id/detailArticlesTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/searchView"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/search_bar"
-        android:elevation="10dp"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search For Cactus"
-        android:searchIcon="@drawable/ic_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/listSpeciesRecyclerView"
-        app:layout_constraintTop_toBottomOf="@+id/textSpecies" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listSpeciesRecyclerView"
+    <TextView
+        android:id="@+id/detailArticlesTitle"
         android:layout_width="380dp"
-        android:layout_height="600dp"
-        android:layout_marginTop="1dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:text="David Austin, Who Breathed Life Into The Rose, Is Dead At 92"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/avatarCardView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"/>
+        app:layout_constraintTop_toBottomOf="@+id/detailArticlesImageView" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/avatarCardView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintBottom_toTopOf="@id/detailArticlesDescription"
+        app:layout_constraintStart_toStartOf="@+id/detailArticlesTitle"
+        app:layout_constraintTop_toBottomOf="@id/detailArticlesTitle">
+
+        <ImageView
+            android:id="@+id/authorImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <TextView
+        android:id="@+id/detailArticlesAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.1"
+        android:text="@string/shivani_vora"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintStart_toEndOf="@+id/avatarCardView"
+        app:layout_constraintTop_toTopOf="@+id/avatarCardView" />
+
+    <TextView
+        android:id="@+id/detailArticlesDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2019.01.01"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/avatarCardView"
+        app:layout_constraintEnd_toEndOf="@+id/detailArticlesAuthor"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/detailArticlesAuthor"
+        app:layout_constraintTop_toBottomOf="@+id/detailArticlesAuthor" />
+
+    <TextView
+        android:id="@+id/detailArticlesDescription"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:layout_marginTop="15dp"
+        android:justificationMode="inter_word"
+        android:text="@string/article_desc"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatarCardView"
+        app:layout_constraintVertical_bias="0.239" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomNavigation"
