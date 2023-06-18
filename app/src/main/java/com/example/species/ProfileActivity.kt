@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.species.databinding.ActivityHomeScreenBinding
 import com.example.species.databinding.ActivityProfileBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,6 +33,7 @@ class ProfileActivity : AppCompatActivity() {
     private val IMAGE_CAPTURE_CODE = 1001
     var img_uri: Uri? = null
     var userName: String? = null
+    var userImage: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +42,18 @@ class ProfileActivity : AppCompatActivity() {
 
         preference = getSharedPreferences("User", Context.MODE_PRIVATE)
         userName = preference.getString("name", null)
+        userImage = preference.getString("image", null)
         binding.userNameTextView.text = userName
+
+        val displayUserImage: ImageView = findViewById(R.id.authorImageView)
+        Glide.with(this)
+            .load(userImage)
+            .into(displayUserImage)
+
+        binding.home.setOnClickListener {
+            val intent = Intent(this, HomeScreenActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.avatarCardView.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

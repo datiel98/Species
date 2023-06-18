@@ -42,7 +42,7 @@
             android:name=".HomeScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".IntroActivity"
+            android:name=".SignInActivity"
             android:exported="false" />
         <activity
             android:name=".ListArticleActivity"
@@ -51,7 +51,7 @@
             android:name=".ForgotPassActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name=".IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

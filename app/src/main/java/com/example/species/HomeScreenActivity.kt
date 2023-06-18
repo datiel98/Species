@@ -13,12 +13,14 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Media
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
+import com.bumptech.glide.Glide
 import com.example.species.databinding.ActivityHomeScreenBinding
 import com.example.species.databinding.ActivitySignInBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -48,8 +50,10 @@ class HomeScreenActivity : AppCompatActivity() {
 
         preference = getSharedPreferences("User", Context.MODE_PRIVATE)
 
-        val email = intent.getStringExtra("email")
+        val email = preference.getString("email", null)
         var userName: String? = null
+        var userImage: String? = null
+        val editor = preference.edit()
 
         if (email != null) {
             FirebaseFirestore.getInstance().collection("users")
@@ -58,6 +62,7 @@ class HomeScreenActivity : AppCompatActivity() {
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         userName = document.get("name") as String
+                        userImage = document.get("image") as String
                     }
                     if (userName != null) {
                         val displayUserName: TextView = findViewById(R.id.textUserName)
@@ -65,11 +70,17 @@ class HomeScreenActivity : AppCompatActivity() {
                         Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
                         displayUserName.text = str
 
-
-                        val editor = preference.edit()
                         editor.putString("name", userName)
                         editor.apply()
+                    }
+                    if (userImage != null) {
+                        val displayUserImage: ImageView = findViewById(R.id.authorImageView)
+                        Glide.with(this)
+                            .load(userImage)
+                            .into(displayUserImage)
 
+                        editor.putString("image", userImage)
+                        editor.apply()
                     }
 
                 }
@@ -96,6 +107,7 @@ class HomeScreenActivity : AppCompatActivity() {
         binding.profile.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.materialCardView.setOnClickListener {

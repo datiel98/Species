@@ -24,6 +24,7 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
+    lateinit var preference : SharedPreferences
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +32,14 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        preference = getSharedPreferences("User", Context.MODE_PRIVATE)
+        if (preference.getString("email", null) != null) {
+            Intent(applicationContext, HomeScreenActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
+        }
+        val editor = preference.edit()
 
         firebaseAuth = FirebaseAuth.getInstance()
         binding.textView.setOnClickListener {
@@ -55,7 +64,8 @@ class SignInActivity : AppCompatActivity() {
                         firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                             if (it.isSuccessful) {
                                 val intent = Intent(this, HomeScreenActivity::class.java)
-                                intent.putExtra("email", email)
+                                editor.putString("email", email)
+                                editor.apply()
                                 startActivity(intent)
                                 finish()
                             } else {
