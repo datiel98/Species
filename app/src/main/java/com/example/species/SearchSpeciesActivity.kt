@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.SnapHelper
 import com.example.species.databinding.ActivityHomeScreenBinding
 import com.example.species.databinding.ActivitySearchSpeciesBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 
 class SearchSpeciesActivity : AppCompatActivity() {
@@ -40,7 +41,7 @@ class SearchSpeciesActivity : AppCompatActivity() {
         }
         searchSpeciesList = arrayListOf()
 
-        FirebaseFirestore.getInstance().collection("plants")
+        FirebaseFirestore.getInstance().collection("plants").orderBy("species",Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {

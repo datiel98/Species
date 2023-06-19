@@ -44,6 +44,7 @@ class ProfileActivity : AppCompatActivity() {
         userName = preference.getString("name", null)
         userImage = preference.getString("image", null)
         binding.userNameTextView.text = userName
+        val editor = preference.edit()
 
         val displayUserImage: ImageView = findViewById(R.id.authorImageView)
         Glide.with(this)
@@ -52,6 +53,13 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.home.setOnClickListener {
             val intent = Intent(this, HomeScreenActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.logOutImageView.setOnClickListener {
+            editor.putString("email", null)
+            editor.apply()
+            val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
         }
 

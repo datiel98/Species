@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.species.databinding.ActivityListActicleBinding
 import com.example.species.databinding.ActivityListSpeciesBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class ListArticleActivity : AppCompatActivity() {
 
@@ -36,7 +37,7 @@ class ListArticleActivity : AppCompatActivity() {
 
         articlesList = arrayListOf()
 
-        FirebaseFirestore.getInstance().collection("articles")
+        FirebaseFirestore.getInstance().collection("articles").orderBy("title", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {

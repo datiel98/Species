@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.species.databinding.ActivityHomeScreenBinding
 import com.example.species.databinding.ActivityListSpeciesBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 
 class ListSpeciesActivity : AppCompatActivity() {
