@@ -8,10 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class SearchSpeciesAdapter(private val context: Context,  private val searchSpeciesList: List<SearchSpecies>) :
+class SearchSpeciesAdapter(private val context: Context,  private var searchSpeciesList: List<SearchSpecies>) :
     RecyclerView.Adapter<SearchSpeciesAdapter.SearchSpeciesViewHolder>() {
 
     var onItemClick : ((SearchSpecies) -> Unit)? = null
+
+    fun setFilterdList(searchSpeciesList: List<SearchSpecies>) {
+        this.searchSpeciesList = searchSpeciesList
+        notifyDataSetChanged()
+    }
 
     class SearchSpeciesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val searchSpeciesName : TextView = itemView.findViewById(R.id.searchSpeciesName)

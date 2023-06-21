@@ -10,11 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.bumptech.glide.Glide
 
-class ArticlesAdapter(private val context: Context, val articles: List<Articles>): RecyclerView.Adapter<ArticlesViewHolder>() {
+class ArticlesAdapter(private val context: Context, var articles: List<Articles>): RecyclerView.Adapter<ArticlesViewHolder>() {
 
     var onItemClick : ((Articles) -> Unit)? = null
     override fun getItemCount(): Int {
         return articles.size
+    }
+
+    fun setFilterdList(articles: List<Articles>) {
+        this.articles = articles
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticlesViewHolder {

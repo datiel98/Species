@@ -1,6 +1,7 @@
 package com.example.species
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,14 +10,17 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.SearchView.OnQueryTextListener
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.species.databinding.ActivityHomeScreenBinding
 import com.example.species.databinding.ActivityListSpeciesBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
+import java.util.Locale
 
 class ListSpeciesActivity : AppCompatActivity() {
 
@@ -28,6 +32,7 @@ class ListSpeciesActivity : AppCompatActivity() {
     private val IMAGE_CAPTURE_CODE = 1001
     var img_uri: Uri? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListSpeciesBinding.inflate(layoutInflater)
@@ -38,6 +43,8 @@ class ListSpeciesActivity : AppCompatActivity() {
             val displaySpeciesName: TextView = findViewById(R.id.textSpecies)
 
             displaySpeciesName.text = speciesName.searchSpeciesName
+            binding.searchView.queryHint = "Search For ${speciesName.searchSpeciesName}"
+
         }
 
         binding.listSpeciesRecyclerView.apply {
@@ -95,7 +102,38 @@ class ListSpeciesActivity : AppCompatActivity() {
             }
         }
 
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText)
+                return true
+            }
+
+        })
+
     }
+
+    private fun filterList(query : String?) {
+
+        if (query != null) {
+            val filteredList  = ArrayList<Species>()
+            for (i in speciesList) {
+                if (i.name.toLowerCase(Locale.ROOT).contains(query)) {
+                    filteredList.add(i)
+                }
+            }
+
+            if (filteredList.isEmpty()) {
+
+            } else {
+                speciesAdapter.setFilterdList(filteredList)
+            }
+        }
+    }
+
     private fun openCamera() {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, "New Picture")
@@ -118,7 +156,7 @@ class ListSpeciesActivity : AppCompatActivity() {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCamera()
                 } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
             }
         }

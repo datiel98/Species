@@ -10,11 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.species.databinding.ActivityListActicleBinding
 import com.example.species.databinding.ActivityListSpeciesBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import java.util.Locale
 
 class ListArticleActivity : AppCompatActivity() {
 
@@ -82,7 +84,38 @@ class ListArticleActivity : AppCompatActivity() {
                 openCamera()
             }
         }
+        binding.articleSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText)
+                return true
+            }
+
+        })
+
     }
+
+    private fun filterList(query : String?) {
+
+        if (query != null) {
+            val filteredList  = ArrayList<Articles>()
+            for (i in articlesList) {
+                if (i.title.toLowerCase(Locale.ROOT).contains(query)) {
+                    filteredList.add(i)
+                }
+            }
+
+            if (filteredList.isEmpty()) {
+
+            } else {
+                articlesAdapter.setFilterdList(filteredList)
+            }
+        }
+    }
+
     private fun openCamera() {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, "New Picture")

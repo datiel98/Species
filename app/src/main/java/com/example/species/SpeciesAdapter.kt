@@ -10,11 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.bumptech.glide.Glide
 
-class SpeciesAdapter(private val context: Context, val species: List<Species>): RecyclerView.Adapter<SpeciesViewHolder>() {
+class SpeciesAdapter(private val context: Context, var species: List<Species>): RecyclerView.Adapter<SpeciesViewHolder>() {
 
     var onItemClick : ((Species) -> Unit)? = null
     override fun getItemCount(): Int {
         return species.size
+    }
+
+    fun setFilterdList(species: List<Species>) {
+        this.species = species
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpeciesViewHolder {

@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/searchSpeciesSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,8 +42,9 @@
         android:layout_marginEnd="10dp"
         android:background="@drawable/search_bar"
         android:elevation="10dp"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search For Species"
+        app:iconifiedByDefault="false"
+        app:queryBackground="@android:color/transparent"
+        app:queryHint="Search For Species"
         android:searchIcon="@drawable/ic_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -55,10 +56,8 @@
         android:id="@+id/searchSpeciesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="580dp"
-        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintTop_toBottomOf="@+id/searchSpeciesSearchView" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

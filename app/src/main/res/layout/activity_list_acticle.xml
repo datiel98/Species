@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toTopOf="@id/articleSearchView"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/articleSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,9 +40,10 @@
         android:layout_marginEnd="10dp"
         android:background="@drawable/search_bar"
         android:elevation="10dp"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search For Cactus"
-        android:searchIcon="@drawable/ic_search"
+        app:iconifiedByDefault="false"
+        app:queryHint="Search For Articles"
+        app:queryBackground="@android:color/transparent"
+        app:searchIcon="@drawable/ic_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +56,6 @@
         android:layout_height="600dp"
         android:layout_marginTop="1dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/articleSearchView" />
 
