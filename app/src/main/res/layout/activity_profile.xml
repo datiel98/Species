@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="130dp"
         android:scaleType="fitXY"
         android:src="@drawable/green_background"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +51,56 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <TextView
+        android:id="@+id/collectedSpeciesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:text="Your Collected Species"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/likedSpeciesRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/likedSpeciesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginBottom="20dp"
+        android:paddingHorizontal="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/collectedArticlesTextView"
+        app:layout_constraintEnd_toEndOf="@+id/collectedSpeciesTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/collectedSpeciesTextView" />
+
+    <TextView
+        android:id="@+id/collectedArticlesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Your Collected Articles"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/likedArticlesRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/likedArticlesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="0dp"
+        android:paddingHorizontal="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        app:layout_constraintEnd_toEndOf="@+id/collectedArticlesTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/collectedArticlesTextView" />
 
     <ImageView
         android:id="@+id/logOutImageView"
@@ -78,10 +128,10 @@
             android:id="@+id/home"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
-            android:gravity="center"
+            android:layout_marginTop="30dp"
             android:clickable="true"
+            android:gravity="center"
             android:orientation="vertical"
             android:padding="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -111,13 +161,13 @@
             android:id="@+id/materialCardView"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            app:cardBackgroundColor="#48A2F5"
             android:layout_marginTop="10dp"
             android:clickable="true"
+            app:cardBackgroundColor="#48A2F5"
             app:cardCornerRadius="60dp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -133,8 +183,8 @@
             android:layout_height="80dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
-            android:gravity="center"
             android:clickable="true"
+            android:gravity="center"
             android:orientation="vertical"
             android:padding="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

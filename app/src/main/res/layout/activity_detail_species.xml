@@ -7,6 +7,27 @@
     android:background="@color/white"
     tools:context=".DetailSpeciesActivity">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/likeCardView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="@color/grey"
+        app:cardCornerRadius="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/detailPlantName"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/iconHeart"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_heart" />
+
+    </com.google.android.material.card.MaterialCardView>
+
     <ImageView
         android:id="@+id/detailImageView"
         android:layout_width="match_parent"

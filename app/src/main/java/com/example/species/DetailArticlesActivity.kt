@@ -2,8 +2,11 @@ package com.example.species
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -15,19 +18,30 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.species.databinding.ActivityDetailArticlesBinding
 import com.example.species.databinding.ActivityDetailSpeciesBinding
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class DetailArticlesActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailArticlesBinding
+    private lateinit var likedArticlesList: List<*>
 
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
     var img_uri: Uri? = null
+    var liked = false
+
+    lateinit var preference : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailArticlesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        preference = getSharedPreferences("User", Context.MODE_PRIVATE)
+        val email = preference.getString("email", null)
 
         val eachArticles = intent.getParcelableExtra<Articles>("articles")
         if (eachArticles != null) {
@@ -79,6 +93,37 @@ class DetailArticlesActivity : AppCompatActivity() {
                 openCamera()
             }
         }
+
+        var userName: String
+        userName = ""
+        FirebaseFirestore.getInstance().collection("users")
+            .whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    userName = document.getString("name").toString()
+                    likedArticlesList = document.get("favorite_articles") as List<*>
+                }
+                if (likedArticlesList.contains(eachArticles?.title)) {
+                    liked = true
+                    binding.likeCardView.setCardBackgroundColor(Color.RED)
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
+            }
+
+        binding.likeCardView.setOnClickListener {
+            liked = !liked
+            if (liked) {
+                binding.likeCardView.setCardBackgroundColor(Color.RED)
+                Firebase.firestore.collection("users").document(userName).update("favorite_articles", FieldValue.arrayUnion(eachArticles?.title))
+            } else {
+                binding.likeCardView.setCardBackgroundColor(Color.GRAY)
+                Firebase.firestore.collection("users").document(userName).update("favorite_articles", FieldValue.arrayRemove(eachArticles?.title))
+            }
+        }
+
     }
     private fun openCamera() {
         val values = ContentValues()

@@ -1,9 +1,13 @@
 package com.example.species
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -12,22 +16,35 @@ import android.provider.MediaStore
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.species.databinding.ActivityDetailSpeciesBinding
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class DetailSpeciesActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailSpeciesBinding
+    private lateinit var likedSpeciesList: List<*>
 
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
     var img_uri: Uri? = null
+    var liked = false
 
+    lateinit var preference : SharedPreferences
+
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailSpeciesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        preference = getSharedPreferences("User", Context.MODE_PRIVATE)
+        val email = preference.getString("email", null)
 
         val eachSpecies = intent.getParcelableExtra<Species>("species")
         if (eachSpecies != null) {
@@ -45,6 +62,37 @@ class DetailSpeciesActivity : AppCompatActivity() {
                 .load(eachSpecies.img_url)
                 .into(eachSpeciesImageView)
         }
+
+        var userName: String
+        userName = ""
+        FirebaseFirestore.getInstance().collection("users")
+            .whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    userName = document.getString("name").toString()
+                    likedSpeciesList = document.get("favorite_species") as List<*>
+                }
+                if (likedSpeciesList.contains(eachSpecies?.name)) {
+                    liked = true
+                    binding.likeCardView.setCardBackgroundColor(Color.RED)
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
+            }
+
+        binding.likeCardView.setOnClickListener {
+            liked = !liked
+            if (liked) {
+                binding.likeCardView.setCardBackgroundColor(Color.RED)
+                Firebase.firestore.collection("users").document(userName).update("favorite_species", FieldValue.arrayUnion(eachSpecies?.name))
+            } else {
+                binding.likeCardView.setCardBackgroundColor(Color.GRAY)
+                Firebase.firestore.collection("users").document(userName).update("favorite_species", FieldValue.arrayRemove(eachSpecies?.name))
+            }
+        }
+
         binding.home.setOnClickListener {
             val intent = Intent(this, HomeScreenActivity::class.java)
             startActivity(intent)
