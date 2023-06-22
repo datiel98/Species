@@ -55,7 +55,6 @@ class ProfileActivity : AppCompatActivity() {
         binding.likedSpeciesRecyclerView?.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         binding.likedArticlesRecyclerView?.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
-        binding.likedSpeciesRecyclerView?.layoutParams
 
         preference = getSharedPreferences("User", Context.MODE_PRIVATE)
         userName = preference.getString("name", null)
