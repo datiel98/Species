@@ -52,8 +52,8 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        binding.likedSpeciesRecyclerView?.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        binding.likedArticlesRecyclerView?.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        binding.likedSpeciesRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        binding.likedArticlesRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
 
         preference = getSharedPreferences("User", Context.MODE_PRIVATE)
@@ -117,9 +117,9 @@ class ProfileActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val eachSpecies: Species? = document.toObject<Species>(Species::class.java)
-                    if (likedSpeciesList.contains(eachSpecies?.name)) {
-                        speciesList.add(eachSpecies!!)
+                    val eachSpecies: Species = document.toObject<Species>(Species::class.java)
+                    if (likedSpeciesList.contains(eachSpecies.name)) {
+                        speciesList.add(eachSpecies)
                     }
                 }
                 speciesAdapter = SpeciesAdapter(this, speciesList)
@@ -138,9 +138,9 @@ class ProfileActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val eachArticles: Articles? = document.toObject<Articles>(Articles::class.java)
-                    if (likedArticlesList.contains(eachArticles?.title)) {
-                        articlesList.add(eachArticles!!)
+                    val eachArticles: Articles = document.toObject<Articles>(Articles::class.java)
+                    if (likedArticlesList.contains(eachArticles.title)) {
+                        articlesList.add(eachArticles)
                     }
                 }
                 articlesAdapter = ArticlesAdapter(this, articlesList)
@@ -175,10 +175,10 @@ class ProfileActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode) {
             PERMISSION_CODE -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCamera()
                 } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -197,11 +197,11 @@ class ProfileActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
 
                     storageRef.downloadUrl.addOnSuccessListener { uri ->
-                        val img_url = uri.toString()
+                        val imgUrl = uri.toString()
                         userName?.let { it1 ->
                             firebaseFirestore.collection("users")
                                 .document(it1)
-                                .update("image", img_url)
+                                .update("image", imgUrl)
                         }
                     }
 

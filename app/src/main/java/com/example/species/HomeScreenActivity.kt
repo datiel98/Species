@@ -107,7 +107,6 @@ class HomeScreenActivity : AppCompatActivity() {
         binding.profile.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
-            finish()
         }
 
         binding.materialCardView.setOnClickListener {
