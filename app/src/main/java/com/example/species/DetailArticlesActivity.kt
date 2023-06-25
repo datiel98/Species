@@ -26,7 +26,7 @@ import com.google.firebase.ktx.Firebase
 class DetailArticlesActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailArticlesBinding
-    private lateinit var likedArticlesList: List<*>
+    private lateinit var likedArticlesList: ArrayList<String>
 
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
@@ -39,6 +39,8 @@ class DetailArticlesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailArticlesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        likedArticlesList = arrayListOf()
 
         preference = getSharedPreferences("User", Context.MODE_PRIVATE)
         val email = preference.getString("email", null)
@@ -94,15 +96,15 @@ class DetailArticlesActivity : AppCompatActivity() {
             }
         }
 
-        var userName: String
-        userName = ""
+        var userName = ""
+
         FirebaseFirestore.getInstance().collection("users")
             .whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     userName = document.getString("name").toString()
-                    likedArticlesList = document.get("favorite_articles") as List<*>
+                    likedArticlesList = document.get("favorite_articles") as ArrayList<String>
                 }
                 if (likedArticlesList.contains(eachArticles?.title)) {
                     liked = true

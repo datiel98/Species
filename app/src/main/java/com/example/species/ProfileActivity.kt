@@ -51,6 +51,8 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        likedSpeciesList = listOf("")
+        likedArticlesList = listOf("")
 
         binding.likedSpeciesRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         binding.likedArticlesRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
@@ -118,7 +120,7 @@ class ProfileActivity : AppCompatActivity() {
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val eachSpecies: Species = document.toObject<Species>(Species::class.java)
-                    if (likedSpeciesList.contains(eachSpecies.name)) {
+                    if (likedSpeciesList.contains(eachSpecies?.name)) {
                         speciesList.add(eachSpecies)
                     }
                 }
@@ -139,7 +141,7 @@ class ProfileActivity : AppCompatActivity() {
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val eachArticles: Articles = document.toObject<Articles>(Articles::class.java)
-                    if (likedArticlesList.contains(eachArticles.title)) {
+                    if (likedArticlesList.contains(eachArticles?.title)) {
                         articlesList.add(eachArticles)
                     }
                 }
@@ -184,6 +186,7 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         binding.authorImageView.setImageURI(img_uri)

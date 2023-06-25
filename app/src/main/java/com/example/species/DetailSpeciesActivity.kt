@@ -28,7 +28,7 @@ import com.google.firebase.ktx.Firebase
 class DetailSpeciesActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailSpeciesBinding
-    private lateinit var likedSpeciesList: List<*>
+    private lateinit var likedSpeciesList: ArrayList<String>
 
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
@@ -42,6 +42,8 @@ class DetailSpeciesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailSpeciesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        likedSpeciesList = arrayListOf()
 
         preference = getSharedPreferences("User", Context.MODE_PRIVATE)
         val email = preference.getString("email", null)
@@ -63,15 +65,15 @@ class DetailSpeciesActivity : AppCompatActivity() {
                 .into(eachSpeciesImageView)
         }
 
-        var userName: String
-        userName = ""
+        var userName = ""
+
         FirebaseFirestore.getInstance().collection("users")
             .whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     userName = document.getString("name").toString()
-                    likedSpeciesList = document.get("favorite_species") as List<*>
+                    likedSpeciesList = document.get("favorite_species") as ArrayList<String>
                 }
                 if (likedSpeciesList.contains(eachSpecies?.name)) {
                     liked = true
